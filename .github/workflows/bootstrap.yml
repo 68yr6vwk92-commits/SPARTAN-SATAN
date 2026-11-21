@@ -12,20 +12,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Create Flutter project
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.38.5'
           channel: stable
 
-      - name: Generate project
+      - name: Generate Flutter project
         run: |
           flutter create --org com.spartansatan spartan_satan
 
-      - name: Prepare repository
+      - name: Copy project files
         run: |
-          cp -r spartan_satan/. .
-          rm -rf spartan_satan
+          rsync -a --exclude='.git' spartan_satan/ ./
 
       - name: Commit project
         run: |
